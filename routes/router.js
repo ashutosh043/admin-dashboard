@@ -4,6 +4,11 @@ const router = express.Router();
 const bcrypt =require('bcryptjs')
 
 
+router.get('/result', async  (req,res)=>{
+   const allApiData = await userModel.find();
+   res.send(allApiData)
+   
+})
 
 
 router.get('/', (req,res)=>{
@@ -70,11 +75,9 @@ router.post('/', async (req,res)=>{
          const  pasr= data.dob.split('-').reverse().join('/');
       
          const isMatch = await bcrypt.compare(password, data.password);
-         console.log(isMatch);
-        
         if(isMatch){
-             res.render('dashboard', {data}, {pasr});
-          
+             res.render('dashboard', {data});
+             res.redirect('/dashboard')
         }else{
             res.send("Password not Matching")
         }
